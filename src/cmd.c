@@ -5,11 +5,18 @@
 // end of includes zone of CMD.C
 
 
+//defines Section
+// necessary define for JSH
+#define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
+
+// end of defines section
+
 /*
 Version and root directory
 */
 char version[] = "1.0.0";
-char rootDir[] = ".\\rootDir\\J";  // Root directory setup
+char kVer[] = "1.0.01A";
+char rootDir[] = ".\\rootDir\\J";  // Root directory for it to start on the proper endDir and limit itself to only create and edit files with the rootDir[] as ROOTDISK
 
 /*
 char variables
@@ -41,11 +48,16 @@ char commandList[] =
     "\n\n"
     "For a more detailed list of commands and more in-depth explanation, see the README.MD file inside https://www.github.com/josgamer_YT156/WSJ/README.md";
 
+char osimsg[] =
+    "Subsystem version: %s \n" // variable in version[256]
+    "Windows Version: WIN11 Targeted |\\ NT |\\ \n" // local Windows variable
+    "Kernel Logic Version: %s \n" // variable in kVer[256]
+    "Version Channel: NULL\n";
 /*
 Definition of the STRUCT array that holds the commands, NECESSARY for command processing*/
 typedef struct {
     const char *name; // we hold the name variable
-    void (*func)(const char *args); // so then we can call the void function that holds the command.
+    void (*func)(const char *args); // so then we can call the void function that holds the command with it's arguments(if any).
 } Command;
 
 //Function prototypes
@@ -70,7 +82,7 @@ void addProcess(HANDLE hProcess, HANDLE hThread, DWORD processID);
 void terminateAllProcesses();
 
 void exitCommand(const char *args) {
-    print("Exiting subsystem...\n");
+    print("HLT \\n\n");
     exit(0);
 }
 
@@ -88,11 +100,14 @@ void initSubsystem() {
 void showHelp(){
     printf("Available commands are: \n");
     printf(commandList);
-    printf("read the README.MD file to know each command's function in detail.\n");
 }
 
 void clearScreen () {
     system("cls");
+}
+
+void OSInfo(){
+    printf(osimsg, version, kVer);
 }
 
 // Define command table
@@ -111,11 +126,10 @@ Command commands[] = {
     {"clt", clearScreen},
     {"cproc", createProcessAndTrack},
     {"killall", terminateAllProcesses},
-    {"addproc", addProcess}
+    {"addproc", addProcess},
+    {"osi", OSInfo},
+    {"pcd", printCurrentDirectory}
 };
-
-#define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
-
 void startShell() {
     char input[256];
 

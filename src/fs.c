@@ -2,37 +2,22 @@
 
 #include <windows.h>
 #include <stdio.h>
-char currentDir[256];  // To hold the current directory
-
-
-/*
-whole CD logic, DO NOT touch mf.
-*/
-void changeDirectory(const char *path) {
-    if (SetCurrentDirectory(path)) {
-       if(path != 1){
-        print("Failed to change directory. \n ECOD: \n"); // error message
-        printf("%d\n", GetLastError());  // Print actual Windows error code
-       } else {
-        print("Changed directory to: "); // status
-        print(path); // target directory
-        print("\n"); // new line directory to avoid overlapping strings after cd
-        strcpy(currentDir, path);  // Keep track of new directory
-       }
-    } else {
-        print("Failed to change directory. \n ECOD: \n");
-        printf("%d\n", GetLastError());  // Print actual Windows error code
-    }
-}
-
+#include "prototypes.h"
 /*
 Formatting function for JPATH
 */
 void formatPath(char *formattedPath, const char *path) {
-    /*
-    Example: Format like "(root).dir.subdir.file\type"
-    */
-    snprintf(formattedPath, 256, "[root]%s", path);
+    char tempPath[256];
+    snprintf(tempPath, sizeof(tempPath), "%s", path);
+
+    // Convert all `\` to `.`
+    for (int i = 0; tempPath[i] != '\0'; i++) {
+        if (tempPath[i] == '\\') {
+            tempPath[i] = '.';  
+        }
+    }
+
+    snprintf(formattedPath, 256, "[root].%s", tempPath); // Format path with [root] and proper `.` separator
 }
 
 /*
@@ -43,16 +28,69 @@ void printCurrentDirectory() {
     formatPath(formattedPath, currentDir);
     print(formattedPath);
     print("\n");
+    return formattedPath;
 }
 
 void updateFormattedPath(char *formattedPath) { 
-    /*
-    Loop to properly update the path and return a error-code for mishandled updates of `"[root].%s", currentPath`
-    */
-    if (sprintf(formattedPath, "[root]%s", currentDir) < 0) {
-        printf("Failed to update PATH\nECOD: %d\n", GetLastError());
-    } else {
-        // Success, do nothing.
+    // Call formatPath to properly update formattedPath with dot separators
+    formatPath(formattedPath, currentDir);  // formatPath already ensures the path is correct
+    if (formattedPath[0] == '.') {
+        // If the formattedPath starts with [root], remove any unnecessary leading dot
+        memmove(formattedPath, formattedPath + 1, strlen(formattedPath));
     }
-    
+
+    // Check if formatting was successful (no errors)
+    if (formattedPath[0] == '\0') {
+        printf("Failed to update path format\n");
+    }
+}
+
+/*
+whole CD logic, DO NOT touch mf.
+*/
+#define ROOT_DIR "C:\\Users\\Lilly Aizawa\\Documents\\Projects\\C\\WIN\\S-OS\\rootDir\\J"
+
+// Function to handle special `<<` logic to go back one level
+void changeDirectory(const char *path) {
+    // Handle `cd <<` to go back one directory level
+    if (strcmp(path, "<<") == 0) {
+        // Split currentDir by the `.` separator (converted from backslashes)
+        char *lastDot = strrchr(currentDir, '\\');
+        if (lastDot) {
+            *lastDot = '\0';  // Remove the last part after the last dot, going back one directory
+        }
+
+        // Update the formattedPath to reflect this change visually
+        formatPath(formattedPath, currentDir);
+        print("Changed directory to: ");
+        print(formattedPath);
+        print("\n");
+    } else {
+        // Handle normal directory change
+        if (SetCurrentDirectory(path)) {
+            GetCurrentDirectory(sizeof(currentDir), currentDir);  // Get full path
+
+            // Find the start of the relevant path inside ROOT_DIR
+            char *relativePath = strstr(currentDir, ROOT_DIR);
+            if (relativePath) {
+                relativePath += strlen(ROOT_DIR); // Move past "rootDir\J"
+                if (*relativePath == '\\') relativePath++;  // Remove extra `\`
+            } else {
+                relativePath = currentDir;  // If not inside ROOT_DIR, keep full path
+            }
+
+            // Update the currentDir to only hold the relative path
+            strcpy(currentDir, relativePath);
+
+            // Update formatted path (convert `\` to `.`)
+            formatPath(formattedPath, currentDir);
+
+            print("Changed directory to: ");
+            print(formattedPath);
+            print("\n");
+        } else {
+            print("Failed to change directory. \nECOD: \n");
+            printf("%d\n", GetLastError());
+        }
+    }
 }

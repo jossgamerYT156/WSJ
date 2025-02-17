@@ -84,6 +84,22 @@ File Management:
 |-- subsystem.exe   : Main Executable (WSJ Itself)
 .\rootDir\*         : WSJ's `/`
 ```
+
+___
+
+# What To Expect
+
+J is a project made and maintained by **1** person, which means many things fly over Lilly
+
+- Expect Minor Bugs or some breaks of features, since Lilly experiments with different methods of doing the same thing every 20 minutes or so.
+- Don't expect constant updates on the repo, Lilly has a life too.
+- Expect re-implementations of stuff that Windows ships OOB, since Lilly has a habit of reinventing the wheel for no apparent reason
+- Expect constant refactoring and unnecessary commenting on lines that were very self-explanatory, Lilly is just as of a Rookie as any person with only 3-4 years of Programming Experience could be.
+- Expect and wait for the re-invention and re-implementation of the [J-Lang](https://github.com/jossgamerYT156/J-Lang) scripting Language, since Lilly seems to be WAY TOO attached to that project and likes making her life a living hell.
+- Expect constant linking to [*Techlm77*](https://github.com/Techlm77), *Hugh P. Hulme* and [Tiadrop](https://github.com/tiadrop)'s help in ANY point, since Lilly constantly bugs them and asks for advice.
+
+___
+
 ---
 
 # Licence
@@ -98,3 +114,11 @@ SOFTWARE.
 
 ---
 ## Developed by: Lilly Aizawa (2022 - 2025) LDS LLC
+
+___
+
+___
+
+[J-OS Quick Explanation by Lilly Aizawa](https://lillydevstudios.neocities.org/home/about/J-OS/)
+
+[Linux Based J](https://techlm77.co.uk/J-OS/) by [Techlm77](https://www.github.com/Techlm77/)

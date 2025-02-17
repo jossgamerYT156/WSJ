@@ -1,7 +1,7 @@
 # WSJ
 The Windows Subsystem for J-Kernel
 
-Basic Subsystem made for Windows Hosts to run a containerized version of J and try it out before jumping in with J-OS completely(which might as well won't ever happen, lol
+Basic Subsystem made for Windows Hosts to run a containerized version of J and try it out before jumping in with J-OS completely(which might as well won't ever happen, lol)
 ---
 
 # How To Build

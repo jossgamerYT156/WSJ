@@ -3,8 +3,10 @@
 #include <windows.h>
 #include <stdio.h>
 #include "prototypes.h"
-/*
-Formatting function for JPATH
+/**
+* @brief Formatting function for JPATH, it formats the Windows' default path \dir\subdir\subdir\file.something to [root].dir.subdir.subdir.file\something
+* @param formattedPath The formatted path to update
+* @param path the source path.
 */
 void formatPath(char *formattedPath, const char *path) {
     char tempPath[256];
@@ -45,12 +47,9 @@ void updateFormattedPath(char *formattedPath) {
     }
 }
 
-/*
-whole CD logic, DO NOT touch mf.
-*/
+// Define the root directory for the J subsystem
 #define ROOT_DIR "C:\\Users\\Lilly Aizawa\\Documents\\Projects\\C\\WIN\\S-OS\\rootDir\\J"
 
-// Function to handle special `<<` logic to go back one level
 void changeDirectory(const char *path) {
     // Handle `cd <<` to go back one directory level
     if (strcmp(path, "<<") == 0) {

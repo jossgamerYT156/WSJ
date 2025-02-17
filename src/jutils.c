@@ -10,9 +10,10 @@ it is NOT recommended to delete parts of the following code, since it could resu
 */
 
 // Multipurpose
-/*
-Just a function to list the files inside .|
-*/
+/**
+ * @brief lists the contents of `currentDir`.
+ * @param null
+ */
 void listFiles() {
     WIN32_FIND_DATA findFileData;
     HANDLE hFind = FindFirstFile("*.*", &findFileData);
@@ -40,9 +41,10 @@ void listFiles() {
 }
 
 // Dirs Logic
-/*
-Basic function to create a directory
-*/
+/**
+ * @brief Creates a directory with the specified name.
+ * @param dirname. Name of the directory to create.
+ */
 void makeDirectory(const char *dirname) {
     if (CreateDirectory(dirname, NULL)) {
         print("Directory created: ");
@@ -54,9 +56,10 @@ void makeDirectory(const char *dirname) {
     }
 }
 
-/*
-Function to delete a specified directory, and output the action if completted with exit0, or exit1.
-*/
+/**
+ * @brief Removes a directory of the specified name.
+ * @param dirname. Name of the directory to remove.
+ */
 void removeDirectory(const char *dirname) {
     if (RemoveDirectory(dirname)) {
         print("Directory removed: ");
@@ -69,9 +72,8 @@ void removeDirectory(const char *dirname) {
 }
 
 // File Management
-/*
-Basic function to create a empty file.
-*/
+
+
 void makeFile(const char *filename) {
     HANDLE hFile = CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
     
@@ -86,9 +88,6 @@ void makeFile(const char *filename) {
     }
 }
 
-/*
-Basic function to remove a file
-*/
 void removeFile(const char *filename) {
     if (DeleteFile(filename)) {
         print("File removed: ");
@@ -112,7 +111,9 @@ code following is the structure for opening files in Windows, and managing Windo
 
 
 /*
-Function to open files using a fileName specified
+* @brief directive to open a file in the default application associated.
+EG: open file.txt will open file.txt in the default text editor.(Windows' notepad.exe)
+* @param filename
 */
 void openFile(const char *filename) {
     /* Build the command to open the file using the "start" command*/

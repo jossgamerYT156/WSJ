@@ -7,8 +7,8 @@
 /*
 Version and root directory
 */
-char version[] = "1.0.0";
-char kVer[] = "1.0.01A";
+char version[] = "1.0.0"; // Subsystem version
+char kVer[] = "1.0.01A"; // Kernel version
 char rootDir[] = ".\\rootDir\\J";  // Root directory for it to start on the proper endDir and limit itself to only create and edit files with the rootDir[] as ROOTDISK
 
 /*
@@ -17,9 +17,6 @@ char variables
 extern char currentDir[256];
 extern char formattedPath[256];
 
-/*
-Huge list of commands for no reason at all other than actually being able to use the hlp command.
-*/
 char commandList[] = 
     "Multipurpose commands:\n"
     "- `cd`     : change directories to the specified path(CORE)\n"
@@ -97,7 +94,13 @@ void OSInfo(){
     printf(osimsg, version, kVer);
 }
 
-
+/**
+ * @brief Main function of the program.
+ * 
+ * Initializes the subsystem, displays a welcome message, and starts the shell.
+ * 
+ * @return integer = `0` status of the program.
+ */
 int main() {
     initSubsystem();
     printf("Welcome to J %s", version);

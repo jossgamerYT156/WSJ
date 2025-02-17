@@ -1,4 +1,4 @@
-// kernel.c inside src/
+// kernel.c
 #include <windows.h>
 #include <stdio.h>
 
@@ -13,7 +13,6 @@ typedef struct {
 Process processList[MAX_PROCESSES];
 int processCount = 0;
 
-// Function to add process to the process list
 void addProcess(HANDLE hProcess, HANDLE hThread, DWORD processID) {
     if (processCount < MAX_PROCESSES) {
         processList[processCount].hProcess = hProcess;
@@ -25,7 +24,6 @@ void addProcess(HANDLE hProcess, HANDLE hThread, DWORD processID) {
     }
 }
 
-// Function to terminate all processes in the list
 void terminateAllProcesses() {
     for (int i = 0; i < processCount; i++) {
         TerminateProcess(processList[i].hProcess, 1); // Forcefully terminate with exit code 1
@@ -35,7 +33,6 @@ void terminateAllProcesses() {
     processCount = 0;  // Reset process count after termination
 }
 
-// Function to create and start a new process
 void createProcessAndTrack(const char *exePath) {
     STARTUPINFO si;
     PROCESS_INFORMATION pi;

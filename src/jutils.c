@@ -9,11 +9,8 @@ the following code is part of the CORE structure of the J Subsystem Binary, this
 it is NOT recommended to delete parts of the following code, since it could result in a un-compilable source.
 */
 
-// Multipurpose
-/**
- * @brief lists the contents of `currentDir`.
- * @param null
- */
+// Multipurpose commands.
+
 void listFiles() {
     WIN32_FIND_DATA findFileData;
     HANDLE hFind = FindFirstFile("*.*", &findFileData);
@@ -41,10 +38,7 @@ void listFiles() {
 }
 
 // Dirs Logic
-/**
- * @brief Creates a directory with the specified name.
- * @param dirname. Name of the directory to create.
- */
+
 void makeDirectory(const char *dirname) {
     if (CreateDirectory(dirname, NULL)) {
         print("Directory created: ");
@@ -56,10 +50,6 @@ void makeDirectory(const char *dirname) {
     }
 }
 
-/**
- * @brief Removes a directory of the specified name.
- * @param dirname. Name of the directory to remove.
- */
 void removeDirectory(const char *dirname) {
     if (RemoveDirectory(dirname)) {
         print("Directory removed: ");
@@ -109,12 +99,8 @@ Windows Compatibility module (WINDOWS.WINUTILS.sysapp)
 code following is the structure for opening files in Windows, and managing Windows interaction.
 */
 
+// Windows interaction WINUTILS.WINDOWSUTILS.sysapp
 
-/*
-* @brief directive to open a file in the default application associated.
-EG: open file.txt will open file.txt in the default text editor.(Windows' notepad.exe)
-* @param filename
-*/
 void openFile(const char *filename) {
     /* Build the command to open the file using the "start" command*/
     char command[512];
@@ -131,5 +117,5 @@ void openFile(const char *filename) {
 }
 
 /*
-end of WINDOWS compatibility module
+end of WINDOWS compatibility module : WINUTILS.WINDOWSUTILS.sysapp :
 */

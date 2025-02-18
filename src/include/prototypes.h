@@ -82,11 +82,11 @@ extern void removeFile(const char *filename);
 extern void removeDirectory(const char *dirname);
 
 // path stuff
-/**
- * @brief Opens the specified file.
- * 
- * @param filename The name of the file to open.
- */
+/*
+* @brief directive to open a file in the default application associated.
+* EG: open file.txt will open file.txt in the default text editor.(Windows' notepad.exe)
+* @param filename
+*/
 extern void openFile(const char *filename);
 
 /**

@@ -121,4 +121,4 @@ ___
 
 [J-OS Quick Explanation by Lilly Aizawa](https://lillydevstudios.neocities.org/home/about/J-OS/)
 
-[Linux Based J](https://techlm77.co.uk/J-OS/) by [Techlm77](https://www.github.com/Techlm77/)
+[Linux Based J](https://techlm77.co.uk/J-OS/)/[ES Translation by Lilly](https://techlm77.co.uk/J-OS/index-spanish.html) by [Techlm77](https://www.github.com/Techlm77/)

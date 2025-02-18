@@ -86,21 +86,28 @@ File Management:
 - *`addproc`* : adds a process to the processlist(CORE)
 
 
-# Files and Stuff:
+# Project structure:
 ---
 ```
-$PROJ_ROOTDIR\
-├── src\:
-│   └──  cmd.c           : Main Command Logic, and Command Prompt interaction, this handles everything inside WSJ, which is Command Handling,  CommandDef and I/O, the SHELL interface so denominated `JSH`
-│   ├── fs.c            : FileSystem interaction, stuff like `cd`, `pcd` and Path Formatting.
-│   ├── io.c            : Basic I/O stuff like `print();` for J-Lang Scripts(in development).
-│   ├── jutils.c        : Subsystem Modules like `Core` and `WINDOWSUTILS`
-│   ├── kernel.c        : J-Kernel Logic and JLScript handling(in development).
-│   └──  sys.c           : Main System Program, this starts the shell and handles the MainLoop.
-├──bin\
-│   └──  subsystem.exe   : Main Executable (WSJ Itself)
-└──rootDir\
-    └── *          : WSJ's `/`
+$PROJ_ROOTDIR\ [dir]                    // from your git clone command, this is the directory named WSJ.
+├── LICENSE [file]                      // MIT License shipped with the repo
+├── README.md [file]                    // this readme file
+├── .gitignore [file]                   // list of files and directories to ignore for `git commit`
+├── rootDir\ [dir]                      // J's ROOT for containerized operation
+│   └── J\ [dir]                        // real J ROOT, this will be treated by J as it's `C:\` path.
+│       └── * [dir or files]            // anything you create inside J will be stored here
+├── src\ [dir]                          // source files with code for J.
+│   ├── include\ [dir]                  // directory with includes for the project, this includes YOUR .h files if you create any.
+│   │   └── prototypes.h [file]         // file containing all the `extern` declarations so the program knows that the functions exists
+│   ├── fs.c [file]                     // filesystem interaction
+│   ├── io.c [file]                     // basic I/O operations
+│   ├── jutils.c [file]                 // CORE, *INUXCOMPAT and WINDOWSCOMPAT modules
+│   ├── kernel.c [file]                 // Kernel logic (still in development)
+│   └── sys.c [file]                    // System features like the command list.
+├── bin\ [dir]                          // out directory of make.bat `/Fe:bin\subsystem.exe`
+│   └── subsystem.exe [WINDOWS BINARY]  // the J binary.
+├── make.bat [build batch script]       // build script for the VS Dev PowerShell
+└── clean.bat [cleanup batch script]    // clean script to remove all generated files and remake the path structure(also helps to create rootDir\J if it is not already created.)
 ```
 
 ___

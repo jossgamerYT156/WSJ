@@ -99,7 +99,7 @@ $PROJ_ROOTDIR\
 │   └──  sys.c           : Main System Program, this starts the shell and handles the MainLoop.
 ├──bin\
 │   └──  subsystem.exe   : Main Executable (WSJ Itself)
-│rootDir\
+└──rootDir\
     └── *          : WSJ's `/`
 ```
 

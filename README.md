@@ -7,7 +7,7 @@ Basic Subsystem made for Windows Hosts to run a containerized version of J and t
 # How To Build
 
 ___
-> These instructions assume you already have a copy of Visual Studio Community Build Tools 2022 installed
+> These instructions assume you already have a copy of Visual Studio Community Build Tools 2022 installed and the Visual Studio Developer PowerShell 2022
 ---
 1.- Start the Visual Studio PowerShell program and CD into the project root directory(where make.bat is located)
 

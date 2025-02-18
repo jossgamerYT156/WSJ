@@ -70,14 +70,15 @@ File Management:
 - *`clt`*    : clears the terminal(WINDOWS.WINDOWSUTILS.sysapp)
 
 ## Process Logic
-- *`cproc`*  : create process (CORE)
-- *`killall`* : kills all processes (CORE)
-- *`addproc`* : adds a process to the processlist(CORE)
+- *`cproc`*       : create process (CORE)
+- *`killall`*     : kills all processes (CORE)
+- *`addproc`*     : adds a process to the processlist(CORE)
 
 # Tags Explanation:
 
-- CORE : Core Inner Workings, these DO affect how the SH works and could break everything if modified without knowledge
-- WINCOMPAT.* :
+- CORE            : Core Inner Workings, these DO affect how the SH works and could break everything if modified without knowledge
+- WINCOMPAT.*     : Commands made for Windows pairity
+- *INUXCOMPAT     : Commands for Linux pairity
 
 # Files and Stuff:
 ___

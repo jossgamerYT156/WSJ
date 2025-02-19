@@ -3,10 +3,10 @@
 #include "prototypes.h"
 
 
-/*
-JUTILS module in module(CORE):
-the following code is part of the CORE structure of the J Subsystem Binary, this is IMPORTANT code that interacts with other parts of code like fs.c and cmd.c
-it is NOT recommended to delete parts of the following code, since it could result in a un-compilable source.
+/**
+* JUTILS module in module(CORE):
+* the following code is part of the CORE structure of the J Subsystem Binary, this is IMPORTANT code that interacts with other parts of code like fs.c and cmd.c
+* it is NOT recommended to delete parts of the following code, since it could result in a un-compilable source.
 */
 
 // Multipurpose commands.
@@ -27,7 +27,9 @@ void listFiles() {
             // Extract file extension (if any)
             char *ext = strrchr(findFileData.cFileName, '.');
             if (ext) {
-                printf("%s%s [file]\n", findFileData.cFileName, ext);
+                // Replace '.' with '\'
+                *ext = '\\';
+                printf("%s [file]\n", findFileData.cFileName);
             } else {
                 printf("%s [file]\n", findFileData.cFileName);
             }
@@ -37,7 +39,7 @@ void listFiles() {
     FindClose(hFind);
 }
 
-// Dirs Logic
+// Directory Logic
 
 void makeDirectory(const char *dirname) {
     if (CreateDirectory(dirname, NULL)) {
@@ -62,7 +64,6 @@ void removeDirectory(const char *dirname) {
 }
 
 // File Management
-
 
 void makeFile(const char *filename) {
     HANDLE hFile = CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -101,19 +102,21 @@ code following is the structure for opening files in Windows, and managing Windo
 
 // Windows interaction WINUTILS.WINDOWSUTILS.sysapp
 
-void openFile(const char *filename) {
-    /* Build the command to open the file using the "start" command*/
-    char command[512];
-    snprintf(command, sizeof(command), "start %s", filename);
+int openFile(const char *filename) {
+    // better implementation of openFile made by user "len" via discord server: Le Official WGE Discord Server
 
-    /* Execute the command using system()*/
-    int result = system(command);
-    if (result == 0) {
-        print("File opened successfully.\n");
-    } else {
-        print("Failed to open file.\n ECOD: \n");
-        printf("%d\n", GetLastError());
+    char *command = (char*)malloc(strlen(filename) + 6); // skip first `6` characters because of the "start " length
+    sprintf(command, "start %s", filename); // call the command to open the file with variable filename provided by *command
+    int result = system(command); // return the result of *command
+
+    if (result != 0) { // if failure
+        fprintf(stderr, "Failed to open file %s.\n ECODE: %d\n", filename, GetLastError()); // return the error code
+        free(command); // and free the memory given to *command
+        return 1; // return with error code 1
     }
+    printf("File opened successfully.\n"); // if success, we tell the user
+    free(command); // we free the memory given to *command
+    return 0; // retunr error code 0 (success)
 }
 
 /*

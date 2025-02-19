@@ -27,32 +27,32 @@ typedef struct {
 
 // Define command table
 Command commands[] = {
-    {"hlt", exitCommand},
-    {"ls", (void (*)(const char *))listFiles},
-    {"cd", changeDirectory},
-    {"mkd", makeDirectory},
-    {"mkf", makeFile},
-    {"rmf", removeFile},
-    {"rmd", removeDirectory},
-    {"pwd", printCurrentDirectory},
-    {"dir", (void (*)(const char *))listFiles},
-    {"hlp", showHelp},
-    {"open", openFile},
-    {"clt", clearScreen},
-    {"cproc", createProcessAndTrack},
-    {"killall", terminateAllProcesses},
-    {"addproc", addProcess},
-    {"osi", OSInfo},
-    {"pcd", printCurrentDirectory}
+    {"hlt", exitCommand}, // hlt directive taken from ASM `hlt` instruction, this itself being the same as UNIX's `exit` command.
+    {"ls", (void (*)(const char *))listFiles}, // taken from UNIX-General List(ls) command.
+    {"cd", changeDirectory}, // same as any UNIX cd command.
+    {"mkd", makeDirectory}, // taken from UNIX mkdir command, abvreviated to mkd for fast typing.
+    {"mkf", makeFile}, // taken from UNIX touch command, abvreviated to mkf for fast typing and ease of understanding
+    {"rmf", removeFile}, // taken from UNIX rm command, abvreviated to rmf for fast typing and ease of understanding
+    {"rmd", removeDirectory}, // taken from Linux's rm -rf directive, avreviated to rmd for fast typing and ease of understanding
+    {"pwd", printCurrentDirectory}, // taken from Linux, added for ease of understanding and pairity.
+    {"dir", (void (*)(const char *))listFiles}, // taken from Windows, added for ease of understanding and pairity.
+    {"hlp", showHelp}, // simple help command, added just because we could.
+    {"open", openFile}, // Windows interaction, added so Lilly could avoid packing a version of Vim or any other program and use Windows' defaults
+    {"clt", clearScreen}, // to avoid CMD cluttering
+    {"cproc", createProcessAndTrack}, // TODO: Create a process and track it
+    {"killall", terminateAllProcesses}, // TODO: terminate all processes
+    {"addproc", addProcess}, // TODO: add a process to the process list
+    {"osi", OSInfo}, // OS Information about J and target Windows version
+    {"pcd", printCurrentDirectory} // same as PWD, added just for ease of understanding.
 };
 
 void startShell() {
-    char input[256];
+    char input[2256];
     char formattedPath[256]; // Ensure formattedPath is in the correct scope
 
     while (1) {
         updateFormattedPath(formattedPath);  // Update the formattedPath based on currentDir
-        printf("\n%s|-> ", formattedPath);  // Print the updated formattedPath
+        printf("\n%s \\> ", formattedPath);  // Print the updated formattedPath
         readInput(input, sizeof(input));
         input[strcspn(input, "\r\n")] = 0; // Trim newline
 
@@ -70,8 +70,8 @@ void startShell() {
             }
         }
 
-        print("Unknown command: ");
-        print(cmd);
+        print("Unknown command: "); // if the command is not found within commandList, print this message.
+        print(cmd); // then we call the prompt again.
         print("\n");
 
         next:;

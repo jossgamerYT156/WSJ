@@ -10,6 +10,11 @@
  */
 #define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
 
+// we define the root directory of the J subsystem here, change this to your own root directory.
+// @note this is the default root directory for the J subsystem, not the root of your actual C: drive..
+#define ROOT_DIR "C:\\Users\\Lilly Aizawa\\Documents\\Projects\\C\\WIN\\S-OS\\rootDir\\J"
+
+
 // end of defines section
 
 /**
@@ -87,7 +92,7 @@ extern void removeDirectory(const char *dirname);
 * EG: open file.txt will open file.txt in the default text editor.(Windows' notepad.exe)
 * @param filename
 */
-extern void openFile(const char *filename);
+extern int openFile(const char *filename);
 
 /**
  * @brief Lists the files in the current directory.

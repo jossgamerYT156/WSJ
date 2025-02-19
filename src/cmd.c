@@ -55,7 +55,7 @@ void removeFile(const char *filename);
 void removeDirectory(const char *dirname);
 
 // path stuff
-void openFile(const char *filename);
+int openFile(const char *filename);
 void listFiles();
 void printCurrentDirectory();
 void updateFormattedPath(char *formattedPath);
@@ -78,7 +78,8 @@ void initSubsystem() {
         // You might want to exit the program here, or take other corrective action
         exit(1); // Example: Exit with an error code
     }
-    strcpy(currentDir, rootDir); // Keep currentDir in sync (optional, but good practice)
+    char initialDir[] = "[root]. ";
+    char currentDir = initialDir;
 }
 
 void showHelp(){
@@ -87,6 +88,7 @@ void showHelp(){
 }
 
 void clearScreen () {
+    updateFormattedPath(formattedPath);
     system("cls");
 }
 

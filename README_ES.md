@@ -147,6 +147,6 @@ ___
 
 ___
 
-[Explicacion Rapida por Lilly Aizawa| Pagina En Ingles](https://lillydevstudios.neocities.org/home/about/J-OS/)
+[J-OS: Una Explicacion Rapida por Lilly Aizawa| Pagina En Ingles](https://lillydevstudios.neocities.org/home/about/J-OS/)
 
 [J Basado En Linux| Pagina En Espanol](https://techlm77.co.uk/J-OS/index-spanish.html) por [Techlm77| Perfil En Ingles](https://www.github.com/Techlm77/)

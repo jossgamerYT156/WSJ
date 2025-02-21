@@ -160,4 +160,12 @@ extern void OSInfo();
  */
 extern void clearScreen();
 
+/**
+ * @brief Function to define the DLL Search Path for the Sub-OS.
+ * @arg void
+ * @returns void
+ * @note This function is necessary for the Sub-OS to find the DLLs in the correct path and not have a seizure when loading extern functions from system "binaries".
+ */
+extern void setupDllPath();
+
 #endif

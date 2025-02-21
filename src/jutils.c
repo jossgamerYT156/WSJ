@@ -101,22 +101,31 @@ code following is the structure for opening files in Windows, and managing Windo
 */
 
 // Windows interaction WINUTILS.WINDOWSUTILS.sysapp
-
 int openFile(const char *filename) {
-    // better implementation of openFile made by user "len" via discord server: Le Official WGE Discord Server
+    // Translate `\` to `.`
+    char translatedFilename[256];
+    snprintf(translatedFilename, sizeof(translatedFilename), "%s", filename);
 
-    char *command = (char*)malloc(strlen(filename) + 6); // skip first `6` characters because of the "start " length
-    sprintf(command, "start %s", filename); // call the command to open the file with variable filename provided by *command
+    // Find the last backslash to separate the filename and extension
+    char *lastBackslash = strrchr(translatedFilename, '\\');
+    if (lastBackslash) {
+        // Replace the backslash with a dot
+        *lastBackslash = '.';
+    }
+
+    // Better implementation of openFile made by user "len" via discord server: Le Official WGE Discord Server
+    char *command = (char*)malloc(strlen(translatedFilename) + 6); // skip first `6` characters because of the "start " length
+    sprintf(command, "start %s", translatedFilename); // call the command to open the file with variable filename provided by *command
     int result = system(command); // return the result of *command
 
     if (result != 0) { // if failure
-        fprintf(stderr, "Failed to open file %s.\n ECODE: %d\n", filename, GetLastError()); // return the error code
+        fprintf(stderr, "Failed to open file %s.\n ECODE: %d\n", translatedFilename, GetLastError()); // return the error code
         free(command); // and free the memory given to *command
         return 1; // return with error code 1
     }
     printf("File opened successfully.\n"); // if success, we tell the user
     free(command); // we free the memory given to *command
-    return 0; // retunr error code 0 (success)
+    return 0; // return error code 0 (success)
 }
 
 /*

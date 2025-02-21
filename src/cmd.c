@@ -10,6 +10,14 @@ Version and root directory
 char version[] = "1.0.0"; // Subsystem version
 char kVer[] = "1.0.01A"; // Kernel version
 char rootDir[] = ".\\rootDir\\J";  // Root directory for it to start on the proper endDir and limit itself to only create and edit files with the rootDir[] as ROOTDISK
+char dllDir[] = ".\\rootDir\\J\\binary"; // DLL directory for it to load the DLLs from
+
+// Definition of the J System DLL Directory.
+void setupDLLPath() {
+    SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
+    wchar_t dllPath[] = L".\\rootDir\\J\\binary";
+    AddDllDirectory(dllPath);
+}
 
 /*
 char variables
@@ -36,11 +44,11 @@ char commandList[] =
     "- `killall : kills all processes (CORE)\n"
     "- `addproc : adds a process to the processlist(CORE)\n"
     "\n\n"
-    "For a more detailed list of commands and more in-depth explanation, see the README.MD file inside https://www.github.com/josgamer_YT156/WSJ/README.md";
+    "For a more detailed list of commands and more in-depth explanation, see the README.MD file inside https://github.com/jossgamerYT156/WSJ/blob/main/README.md";
 
 char osimsg[] =
     "Subsystem version: %s \n" // variable in version[256]
-    "Windows Version: WIN11 Targeted |\\ NT |\\ \n" // local Windows variable
+    "Windows Version: WINDOWS Targeted |\\ NT BASE |\\ \n" // local Windows variable
     "Kernel Logic Version: %s \n" // variable in kVer[256]
     "Version Channel: NULL\n";
 

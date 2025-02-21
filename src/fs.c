@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include "prototypes.h"
+
 /**
 * @brief Formatting function for JPATH, it formats the Windows' default path \dir\subdir\subdir\file.something to [root].dir.subdir.subdir.file\something
 * @param formattedPath The formatted path to update
@@ -52,6 +53,13 @@ void updateFormattedPath(char *formattedPath) {
 }
 
 void changeDirectory(const char *path) {
+    // If the path contains a backslash, treat it as a file path
+    if (strchr(path, '\\')) {
+        // It's a file path, so open it
+        openFile(path);
+        return; // Return early, as we don't want to continue with cd logic
+    }
+
     // Handle `cd <<` to go back one directory level
     if (strcmp(path, "<<") == 0) {
         // Split currentDir by the `.` separator (converted from backslashes)
@@ -79,28 +87,38 @@ void changeDirectory(const char *path) {
         print(formattedPath);
         print("\n");
     } else {
-        // Handle normal directory change
-        if (SetCurrentDirectory(path)) {
-            GetCurrentDirectory(sizeof(currentDir), currentDir);  // Get full path
+        // If we reach here, treat the path as a directory (only . separator paths)
+        DWORD attributes = GetFileAttributes(path);
+        if (attributes == INVALID_FILE_ATTRIBUTES) {
+            print("Failed to change directory. \nECOD: \n");
+            printf("%d\n", GetLastError());
+            return;
+        }
 
-            // Find the start of the relevant path inside ROOT_DIR
-            char *relativePath = strstr(currentDir, ROOT_DIR);
-            if (relativePath) {
-                relativePath += strlen(ROOT_DIR); // Move past "rootDir\J"
-                if (*relativePath == '\\') relativePath++;  // Remove extra `\`
-            } else {
-                relativePath = currentDir;  // If not inside ROOT_DIR, keep full path
+        if (attributes & FILE_ATTRIBUTE_DIRECTORY) {
+            // Handle normal directory change
+            if (SetCurrentDirectory(path)) {
+                GetCurrentDirectory(sizeof(currentDir), currentDir);  // Get full path
+
+                // Find the start of the relevant path inside ROOT_DIR
+                char *relativePath = strstr(currentDir, ROOT_DIR);
+                if (relativePath) {
+                    relativePath += strlen(ROOT_DIR); // Move past "rootDir\J"
+                    if (*relativePath == '\\') relativePath++;  // Remove extra `\`
+                } else {
+                    relativePath = currentDir;  // If not inside ROOT_DIR, keep full path
+                }
+
+                // Update the currentDir to only hold the relative path
+                strcpy(currentDir, relativePath);
+
+                // Update formatted path (convert `\` to `.`)
+                formatPath(formattedPath, currentDir);
+
+                print("Changed directory to: ");
+                print(formattedPath);
+                print("\n");
             }
-
-            // Update the currentDir to only hold the relative path
-            strcpy(currentDir, relativePath);
-
-            // Update formatted path (convert `\` to `.`)
-            formatPath(formattedPath, currentDir);
-
-            print("Changed directory to: ");
-            print(formattedPath);
-            print("\n");
         } else {
             print("Failed to change directory. \nECOD: \n");
             printf("%d\n", GetLastError());

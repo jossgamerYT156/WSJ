@@ -7,7 +7,7 @@ cls
 echo "Building J-Kernel for Windows Subsystem: Windows Subsystem J"
 
 :: we call CL.EXE so we can compile the object files, we need those.
-cl /c src\io.c src\jutils.c src\sys.c src\fs.c src\kernel.c src\cmd.c /Fo:bin\ /I src\include
+cl /MP /c src\io.c src\jutils.c src\sys.c src\fs.c src\kernel.c src\cmd.c /Fo:bin\ /I src\include
 
 :: we link the file into a .EXE so you can use the Subsystem
 cl bin\io.obj bin\jutils.obj bin\sys.obj bin\fs.obj bin\kernel.obj bin\cmd.obj /Fe:bin\subsystem.exe

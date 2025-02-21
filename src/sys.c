@@ -2,12 +2,6 @@
 #include <stdio.h>
 
 #include "prototypes.h"
-
-//defines Section
-// necessary define for JSH
-#define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
-//end of defines section
-
 char version[256];
 char formattedPath[256];
 /*
@@ -25,25 +19,35 @@ typedef struct {
     void (*func)(const char *args); // so then we can call the void function that holds the command with it's arguments(if any).
 } Command;
 
+
 // Define command table
 Command commands[] = {
     {"hlt", exitCommand}, // hlt directive taken from ASM `hlt` instruction, this itself being the same as UNIX's `exit` command.
     {"ls", (void (*)(const char *))listFiles}, // taken from UNIX-General List(ls) command.
+    {"hlp", showHelp}, // simple help command, added just because we could, same as Linux's manpages.    
+    {"osi", OSInfo}, // OS Information about J and target Windows version, like neofetch, but worse and more basic.
+    
+    // Directory interaction
     {"cd", changeDirectory}, // same as any UNIX cd command.
     {"mkd", makeDirectory}, // taken from UNIX mkdir command, abvreviated to mkd for fast typing.
-    {"mkf", makeFile}, // taken from UNIX touch command, abvreviated to mkf for fast typing and ease of understanding
-    {"rmf", removeFile}, // taken from UNIX rm command, abvreviated to rmf for fast typing and ease of understanding
     {"rmd", removeDirectory}, // taken from Linux's rm -rf directive, avreviated to rmd for fast typing and ease of understanding
     {"pwd", printCurrentDirectory}, // taken from Linux, added for ease of understanding and pairity.
+    {"pcd", printCurrentDirectory}, // same as PWD, J-Formatted Command/Logic avreviation.
     {"dir", (void (*)(const char *))listFiles}, // taken from Windows, added for ease of understanding and pairity.
-    {"hlp", showHelp}, // simple help command, added just because we could.
+
+    // windows interaction
     {"open", openFile}, // Windows interaction, added so Lilly could avoid packing a version of Vim or any other program and use Windows' defaults
     {"clt", clearScreen}, // to avoid CMD cluttering
+    
+    // file interaction
+    {"mkf", makeFile}, // taken from UNIX touch command, abvreviated to mkf for fast typing and ease of understanding
+    {"rmf", removeFile}, // taken from UNIX rm command, abvreviated to rmf for fast typing and ease of understanding
+    
+
+    // todo: process logic
     {"cproc", createProcessAndTrack}, // TODO: Create a process and track it
     {"killall", terminateAllProcesses}, // TODO: terminate all processes
     {"addproc", addProcess}, // TODO: add a process to the process list
-    {"osi", OSInfo}, // OS Information about J and target Windows version
-    {"pcd", printCurrentDirectory} // same as PWD, added just for ease of understanding.
 };
 
 void startShell() {

@@ -25,7 +25,7 @@ WSJ Ha sido compilado en:
 ___
 1.- Inicia el programa `Terminal Para Desarrolladores PowerShell` y [`cd`](https://es.wikipedia.org/wiki/Cd_(commando)) hacia el directorio raiz del projecto(donde `make.bat` esta localizado)
 
-2.- Ejecuta el script `make.bat`(dentro de la Terminal Para Desarrolladores PowerShell), esto generara los archivos .obj necesarios dentro de `.\bin\*` y los enlazara (Utilizando el [linker](https://en.wikipedia.org/wiki/Linker_(computing) Proveeido por VSBT 2019) para formar el binario `subsystem.exe`, es recomendable ejecutar esto si planea en compilar el codigo fuente, ya que compilar cada archivo manualmente toma largas cantidades de tiempo.
+2.- Ejecuta el script `make.bat`(dentro de la Terminal Para Desarrolladores PowerShell), esto generara los archivos .obj necesarios dentro de `.\bin\*` y los enlazara (Utilizando el [Enlazador](https://es.wikipedia.org/wiki/Enlazador) Proveeido por VSBT 2019) para formar el binario `subsystem.exe`, es recomendable ejecutar esto si planea en compilar el codigo fuente, ya que compilar cada archivo manualmente toma largas cantidades de tiempo.
 
 ## De ser necesario:
 

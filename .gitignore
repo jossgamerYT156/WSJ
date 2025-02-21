@@ -55,5 +55,6 @@ run.bat
 # stuff from tests
 rootDir/*
 .vscode/*
-J-OS.zip
-J.lnk
+.\*.zip
+.\*.lnk
+.\bin\*.*

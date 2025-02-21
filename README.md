@@ -2,7 +2,7 @@
 The Windows Subsystem for J-Kernel
 
 Basic Subsystem made for Windows Hosts to run a containerized version of J and try it out before jumping in with J-OS completely(which might as well won't ever happen, lol)
----
+___
 
 # How To Build
 
@@ -17,13 +17,13 @@ ___
 > Linker: Microsoft (R) Incremental Linker Version 14.44.34823.2
 
 WSJ has been compiled on:
-> OS: Windows 11 Pro 24H2 B.NO:26100.3194 
+> OS: Windows 11 Pro 24H2 B.NO: 26100.3194 
 >
 > CPU: AMD Ryzen 7 PRO 4750U(16) x64 Processor
 >
 > RAM: 16GB LDDR4
 
----
+___
 1.- Start the Visual Studio PowerShell program and [CD](https://en.wikipedia.org/wiki/Cd_(command)) into the project root directory(where make.bat is located)
 
 2.- Run the `make.bat` batch script(inside the Visual Studio XXXX Developer PowerShell), this will generate the necessary .obj files inside `bin\*` and link them (using the [linker](https://en.wikipedia.org/wiki/Linker_(computing) . ) to the `subsystem.exe` file, it is recommended to run this if you plan to build the source, since compiling files one by one would take long amounts of time.
@@ -62,18 +62,17 @@ These warns are "normal" and do not affect directly to the binary's operation, t
 
 ## Multipurpose commands:
 
-- `hlt`      : HALTS the program (CORE)
-- `cd`       : change directories to the specified path (CORE)
-- `osi`      : shows MISC OS info and target info (CORE)
-- `pcd`      : prints the current directory (CORE)
-- `pwd`      : Same as `pcd`, added just for compatibility (CORE.*INUXCOMPAT)
-File Management:
+- *`hlt`*      : HALTS the program (CORE)
+- *`cd`*       : change directories to the specified path (CORE)
+- *`osi`*      : shows MISC OS info and target info (CORE)
+- *`pcd`*      : prints the current directory (CORE)
+- *`pwd`*      : Same as `pcd`, added just for compatibility (CORE.*INUXCOMPAT)
+## File Management:
 - *`mkd`*    : removes a directory of the specified path (CORE)
 - *`rmd`*    : remove directories from the specified path (CORE)
 - *`mkf`*    : make a file with the specified name and path (CORE)
 - *`rmf`*    : removes the specified file (CORE)
 - *`ls`*     : Lists the contents of currentDir[256] (CORE)
-- *`pwd`*    : (still on development) gets the current working directory(CORE)
 
 ## Windows Interaction
 - *`dir`*    : same as `ls` (WINCOMPAT.WINDOWSUTILS.sysapp)

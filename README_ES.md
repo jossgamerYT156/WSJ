@@ -93,25 +93,25 @@ __
 ___
 ```
 $RAIZ_DEL_PROJECTO [DIRECTORIO]
-  LICENCE [ARCHIVO]         // Licencia de software de tipo MIT del projecto
-  README.md [ARCHIVO]       // archivo leeanme con documentacion breve
-  README_ES.md [ARCHIVO]    // traduccion en espanol para el archivo leeanme
-  .gitignore [ARCHIVO]      // archivo conteniendo que archivos para ignorar por el comando `git commit`
-  rootDir [DIRECTORIO]      // directorio -0 de J, inicio de la raiz de J Subsystem
-    J [DIRECTORIO]          // Raiz de subsystem.exe
-      * [DIRECTORIO]        // archivos que usted cree dentro de J seran guardados aqui
-  src [DIRECTORIO]          // directorio con el codigo fuente de J
-    include [DIRECTORIO]    // Directorio con archivos .h del projecto, crea tus headerfiles aqui para incluirlos en compilacion automaticamente
-      prototypes.h [ARCHIVO]// archivo conteniendo los prototipos de las funciones para el uso project-broad.
-    fs.c [ARCHIVO]          // Interaccion con el sistema de archivos
-    io.c [ARCHIVO]          // operaciones I/O basicas
-    jutils.c [ARCHIVO]      // modulos NUCLEO, *INUXCOMPAT y WINDOWSCOMPAT
-    kernel.c [ARCHIVO]      // Logica de Kernel (En desarrollo)
-    sys.c [ARCHIVO]         // Caracteristicas del sistema como la lista de comandos
-  bin [DIRECTORIO]          // directorio de salida de make.bat, /Fe:bin\subsystem.exe
-    subsystem.exe [BINARIO DE WINDOWS]  // Binario de J
-  clean.bat [SCRIPT DE LIMPIEZA]        // archivo de limpieza de archivos
-  make.bat [SCRIPT DE LIMPIEZA]         // archivo de compilacion para VS Powershell Para Desarrolladores
+├──  LICENCE [ARCHIVO]                      // Licencia de software de tipo MIT del projecto
+├──  README.md [ARCHIVO]                    // archivo leeanme con documentacion breve
+├──  README_ES.md [ARCHIVO]                 // traduccion en espanol para el archivo leeanme
+├──  .gitignore [ARCHIVO]                   // archivo conteniendo que archivos para ignorar por el comando `git commit`
+├──  rootDir [DIRECTORIO]                   // directorio -0 de J, inicio de la raiz de J Subsystem
+│      └── J [DIRECTORIO]                   // Raiz de subsystem.exe
+│          └──* [DIRECTORIO]                // archivos que usted cree dentro de J seran guardados aqui
+├── src [DIRECTORIO]                        // directorio con el codigo fuente de J
+│    └──include [DIRECTORIO]                // Directorio con archivos .h del projecto, crea tus headerfiles aqui para incluirlos en compilacion automaticamente
+│    │    └──prototypes.h [ARCHIVO]         // archivo conteniendo los prototipos de las funciones para el uso project-broad.
+│    ├── fs.c [ARCHIVO]                     // Interaccion con el sistema de archivos
+│    ├── io.c [ARCHIVO]                     // operaciones I/O basicas
+│    ├── jutils.c [ARCHIVO]                 // modulos NUCLEO, *INUXCOMPAT y WINDOWSCOMPAT
+│    ├── kernel.c [ARCHIVO]                 // Logica de Kernel (En desarrollo)
+│    ├── sys.c [ARCHIVO]                    // Caracteristicas del sistema como la lista de comandos
+├── bin [DIRECTORIO]                        // directorio de salida de make.bat, /Fe:bin\subsystem.exe
+│   └── subsystem.exe [BINARIO DE WINDOWS]  // Binario de J
+├── clean.bat [SCRIPT DE LIMPIEZA]          // archivo de limpieza de archivos
+└── make.bat [SCRIPT DE LIMPIEZA]           // archivo de compilacion para VS Powershell Para Desarrolladores
 ```
 
 # Que Esperar

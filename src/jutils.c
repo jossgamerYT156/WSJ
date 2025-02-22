@@ -42,20 +42,90 @@ void listFiles() {
 // Directory Logic
 
 void makeDirectory(const char *dirname) {
-    if (CreateDirectory(dirname, NULL)) {
-        print("Directory created: ");
-        print(dirname);
+    char translatedDirname[256];
+    snprintf(translatedDirname, sizeof(translatedDirname), "%s", dirname);
+
+    // Replace '.' with '\'
+    for (char *p = translatedDirname; *p; p++) {
+        if (*p == '.') {
+            *p = '\\';
+        }
+    }
+
+    // Create directories recursively
+    char *subdir = translatedDirname;
+    while ((subdir = strchr(subdir, '\\')) != NULL) {
+        *subdir = '\0';
+        CreateDirectory(translatedDirname, NULL);
+        *subdir = '\\';
+        subdir++;
+    }
+    CreateDirectory(translatedDirname, NULL);
+    if (GetLastError() == ERROR_ALREADY_EXISTS) {
+        print("Directory already exists: ");
+        print(translatedDirname);
         print("\n");
-    } else {
-        print("Failed to create directory.\n ECOD: \n");
+    } else if (GetLastError() == ERROR_PATH_NOT_FOUND) {
+        print("Failed to create directory. Path not found.\n ECOD: \n");
         printf("%d\n", GetLastError());
+    } else {
+        print("Directory created: ");
+        print(translatedDirname);
+        print("\n");
     }
 }
 
 void removeDirectory(const char *dirname) {
-    if (RemoveDirectory(dirname)) {
+    int recursive = 0;
+    char translatedDirname[256];
+    snprintf(translatedDirname, sizeof(translatedDirname), "%s", dirname);
+
+    // Check for /rd argument
+    if (strncmp(dirname, "/rd ", 4) == 0) {
+        recursive = 1;
+        snprintf(translatedDirname, sizeof(translatedDirname), "%s", dirname + 4);
+    }
+
+    // Replace '.' with '\'
+    for (char *p = translatedDirname; *p; p++) {
+        if (*p == '.') {
+            *p = '\\';
+        }
+    }
+
+    if (recursive) {
+        // Remove directories recursively
+        WIN32_FIND_DATA findFileData;
+        char searchPath[512];
+        snprintf(searchPath, sizeof(searchPath), "%s\\*", translatedDirname);
+        HANDLE hFind = FindFirstFile(searchPath, &findFileData);
+
+        if (hFind != INVALID_HANDLE_VALUE) {
+            do {
+                if (strcmp(findFileData.cFileName, ".") != 0 && strcmp(findFileData.cFileName, "..") != 0) {
+                    char path[512];
+                    snprintf(path, sizeof(path), "%s\\%s", translatedDirname, findFileData.cFileName);
+
+                    if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+                        removeDirectory(path);
+                    } else {
+                        DeleteFile(path);
+                    }
+                }
+            } while (FindNextFile(hFind, &findFileData));
+            FindClose(hFind);
+        }
+    }
+
+    // Update translatedDirname to remove trailing backslashes
+    size_t len = strlen(translatedDirname);
+    while (len > 0 && translatedDirname[len - 1] == '\\') {
+        translatedDirname[--len] = '\0';
+    }
+
+    if (RemoveDirectory(translatedDirname)) {
         print("Directory removed: ");
-        print(dirname);
+        print(translatedDirname);
         print("\n");
     } else {
         print("Failed to remove directory.\n ECOD: \n");
@@ -66,11 +136,22 @@ void removeDirectory(const char *dirname) {
 // File Management
 
 void makeFile(const char *filename) {
-    HANDLE hFile = CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+    // Translate `\` to `.`
+    char translatedFilename[256];
+    snprintf(translatedFilename, sizeof(translatedFilename), "%s", filename);
+
+    // Find the last backslash to separate the filename and extension
+    char *lastBackslash = strrchr(translatedFilename, '\\');
+    if (lastBackslash) {
+        // Replace the backslash with a dot
+        *lastBackslash = '.';
+    }
+
+    HANDLE hFile = CreateFile(translatedFilename, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
     
     if (hFile != INVALID_HANDLE_VALUE) {
         print("File created: ");
-        print(filename);
+        print(translatedFilename);
         print("\n");
         CloseHandle(hFile);
     } else {
@@ -80,9 +161,20 @@ void makeFile(const char *filename) {
 }
 
 void removeFile(const char *filename) {
-    if (DeleteFile(filename)) {
+    // Translate `\` to `.`
+    char translatedFilename[256];
+    snprintf(translatedFilename, sizeof(translatedFilename), "%s", filename);
+
+    // Find the last backslash to separate the filename and extension
+    char *lastBackslash = strrchr(translatedFilename, '\\');
+    if (lastBackslash) {
+        // Replace the backslash with a dot
+        *lastBackslash = '.';
+    }
+
+    if (DeleteFile(translatedFilename)) {
         print("File removed: ");
-        print(filename);
+        print(translatedFilename);
         print("\n");
     } else {
         print("Failed to remove file.\n ECOD: \n");
@@ -113,7 +205,7 @@ int openFile(const char *filename) {
         *lastBackslash = '.';
     }
 
-    // Better implementation of openFile made by user "len" via discord server: Le Official WGE Discord Server
+    // Better implementation of openFile made by user "lenanya" / https://github.com/lenanya | over Discord Server: "Le Official WGE Discord Server"
     char *command = (char*)malloc(strlen(translatedFilename) + 6); // skip first `6` characters because of the "start " length
     sprintf(command, "start %s", translatedFilename); // call the command to open the file with variable filename provided by *command
     int result = system(command); // return the result of *command

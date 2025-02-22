@@ -46,6 +46,7 @@ Command commands[] = {
 
     // todo: process logic
     {"cproc", createProcessAndTrack}, // TODO: Create a process and track it
+    {"cchproc", createChildProcess}, // TODO: Create a child process
     {"killall", terminateAllProcesses}, // TODO: terminate all processes
     {"addproc", addProcess}, // TODO: add a process to the process list
 };

@@ -1,6 +1,7 @@
 // kernel.c
 #include <windows.h>
 #include <stdio.h>
+#include "prototypes.h"
 
 #define MAX_PROCESSES 10
 
@@ -21,6 +22,38 @@ void addProcess(HANDLE hProcess, HANDLE hThread, DWORD processID) {
         processCount++;
     } else {
         printf("Process list is full!\n");
+    }
+}
+
+void createSharedRootDirectory() {
+    // Check if the root directory exists, if not, create it
+    if (CreateDirectory(ROOT_DIR, NULL) || GetLastError() == ERROR_ALREADY_EXISTS) {
+        printf("Root directory created or already exists: %s\n", ROOT_DIR);
+    } else {
+        printf("Failed to create root directory. Error: %lu\n", GetLastError());
+    }
+}
+
+void createChildProcess() {
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    ZeroMemory(&pi, sizeof(pi));
+
+    // Ensure the root directory exists before creating the process
+    createSharedRootDirectory();
+
+    // Correctly format the path with double quotes for both executable and arguments
+    char cmdLine[1024];
+    snprintf(cmdLine, sizeof(cmdLine), "cmd.exe /C \"\"C:\\Users\\Lilly_Aizawa\\WSJ\\bin\\subsystem.exe\" \"%s\"\"", ROOT_DIR);
+
+    // Create the child process
+    if (CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+        printf("Successfully created child process with PID %lu\n", pi.dwProcessId);
+        addProcess(pi.hProcess, pi.hThread, pi.dwProcessId);
+    } else {
+        printf("Failed to create child process. Error code: %lu\n", GetLastError());
     }
 }
 

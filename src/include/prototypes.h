@@ -12,7 +12,7 @@
 
 // we define the root directory of the J subsystem here, change this to your own root directory.
 // @note this is the default root directory for the J subsystem, not the root of your actual C: drive..
-#define ROOT_DIR "C:\\Users\\Lilly Aizawa\\Documents\\Projects\\C\\WIN\\S-OS\\rootDir\\J"
+#define ROOT_DIR "C:\\Users\\Lilly_Aizawa\\WSJ\\rootDir\\J"
 
 
 // end of defines section
@@ -111,6 +111,13 @@ extern void printCurrentDirectory();
  */
 extern void updateFormattedPath(char *formattedPath);
 
+/** @brief Helper function to convert dot-separated paths back to backslash-separated paths.
+ *  @param formattedPath: The path to remove `.` from and replace with `\`
+ * 
+ *  @returns void
+ */
+extern void convertDotToBackslash(char *formattedPath);
+
 // process based logic
 /**
  * @brief Creates a new process and tracks it.
@@ -127,6 +134,8 @@ extern void createProcessAndTrack(const char *exePath);
  * @param processID The process ID.
  */
 extern void addProcess(HANDLE hProcess, HANDLE hThread, DWORD processID);
+
+extern void createChildProcess();
 
 /**
  * @brief Terminates all processes.
@@ -159,13 +168,5 @@ extern void OSInfo();
  * @brief Clears the terminal screen to avoid cluttering.
  */
 extern void clearScreen();
-
-/**
- * @brief Function to define the DLL Search Path for the Sub-OS.
- * @arg void
- * @returns void
- * @note This function is necessary for the Sub-OS to find the DLLs in the correct path and not have a seizure when loading extern functions from system "binaries".
- */
-extern void setupDllPath();
 
 #endif

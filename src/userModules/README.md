@@ -8,5 +8,6 @@ User modules is just a directory to put YOUR additions, stuff like features you 
 
 > Must NOT contain malicious code.
 
+User Modules are DIY, so, have fun finding out how to implement them!
 Have fun!
 DON'T ask for DLL support, we won't do that.

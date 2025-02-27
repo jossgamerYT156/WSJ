@@ -54,27 +54,6 @@ char osimsg[] =
     "Kernel Logic Version: %s \n" // variable in kVer[256]
     "Version Channel: NULL\n";
 
-//Function prototypes
-// moving through the FS
-void changeDirectory(const char *path);
-
-// file management function prototypes
-void makeDirectory(const char *dirname);
-void makeFile(const char *pathandname);
-void removeFile(const char *filename);
-void removeDirectory(const char *dirname);
-
-// path stuff
-int openDirective(const char *filename);
-void listFiles(const char *dir);
-void printCurrentDirectory();
-void updateFormattedPath(char *formattedPath);
-
-// process based logic
-void createProcessAndTrack(const char *exePath);
-void addProcess(HANDLE hProcess, HANDLE hThread, DWORD processID);
-void terminateAllProcesses();
-
 void haltDirective(const char *args) {
     print("HLT\0\n");
     exit(0);

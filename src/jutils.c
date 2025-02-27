@@ -1,5 +1,7 @@
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "prototypes.h"
 
 
@@ -11,32 +13,79 @@
 
 // Multipurpose commands.
 
-void listFiles() {
-    WIN32_FIND_DATA findFileData;
-    HANDLE hFind = FindFirstFile("*.*", &findFileData);
-
-    if (hFind == INVALID_HANDLE_VALUE) {
-        print("No files found.\n");
+void waitDirective(const char *args) {
+    if (!args) {
+        printf("Error: No time specified for wait.\n");
         return;
     }
 
-    do {
-        if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            printf("%s [dir]\n", findFileData.cFileName);
-        } else {
-            // Extract file extension (if any)
-            char *ext = strrchr(findFileData.cFileName, '.');
-            if (ext) {
-                // Replace '.' with '\'
-                *ext = '\\';
-                printf("%s [file]\n", findFileData.cFileName);
-            } else {
-                printf("%s [file]\n", findFileData.cFileName);
-            }
-        }
-    } while (FindNextFile(hFind, &findFileData));
+    // Convert the argument to an integer (number of seconds)
+    int timeInSeconds = atoi(args);
+    if (timeInSeconds <= 0 || timeInSeconds > 9999) {
+        printf("Error: Invalid time specified. Must be between 1 and 9999 seconds.\n");
+        return;
+    }
 
-    FindClose(hFind);
+    // Multiply by 1000 to convert to milliseconds (for Windows Sleep)
+    printf("Waiting for %d seconds...\n", timeInSeconds);
+    Sleep(timeInSeconds * 1000);  // Sleep takes time in milliseconds
+    printf("Wait completed.\n");
+}
+
+void writeDirective(char *args) {
+    if (!args) return; // Prevent NULL pointer crashes
+
+    size_t len = strlen(args);
+    char *formattedString = malloc(len + 1); // Allocate memory dynamically
+
+    if (!formattedString) {
+        printf("Memory allocation failed.\n");
+        return;
+    }
+
+    // Check if the input is quoted (multi-line safe)
+    if (args[0] == '\"' && args[len - 1] == '\"') {
+        // Copy everything inside the quotes, preserving newlines
+        strncpy(formattedString, args + 1, len - 2);
+        formattedString[len - 2] = '\0'; // Proper null-termination
+    } else {
+        // No quotes, just copy as is
+        strcpy(formattedString, args);
+    }
+
+    printf("%s\n", formattedString); // Echo the formatted string
+    free(formattedString); // Free allocated memory
+}
+
+void listFiles(const char *dir) {
+    char command[512];
+    snprintf(command, sizeof(command), "dir /w \"%s\"", dir); // Ensure correct path
+
+    FILE *fp = _popen(command, "r");
+    if (!fp) {
+        print("Failed to list files.\n");
+        return;
+    }
+
+    char buffer[256];
+    int skipLines = 3; // Skip first two lines (Volume info)
+
+    while (fgets(buffer, sizeof(buffer), fp)) {
+        // Skip volume info and full path
+        if (skipLines > 0 || strstr(buffer, " Directory of ") != NULL) {
+            skipLines--;
+            continue;
+        }
+
+        // Replace `.` with `\` for J-Format
+        for (char *c = buffer; *c; c++) {
+            if (*c == '.') *c = '\\';
+        }
+
+        print(buffer);
+    }
+
+    _pclose(fp);
 }
 
 // Directory Logic
@@ -134,24 +183,41 @@ void removeDirectory(const char *dirname) {
 }
 
 // File Management
+void makeFile(const char *pathandname) {
+    char translatedPath[256];
+    snprintf(translatedPath, sizeof(translatedPath), "%s", pathandname);
 
-void makeFile(const char *filename) {
-    // Translate `\` to `.`
-    char translatedFilename[256];
-    snprintf(translatedFilename, sizeof(translatedFilename), "%s", filename);
+    // Find the LAST '.' (to separate directory and file)
+    char *lastDot = strrchr(translatedPath, '.');
 
-    // Find the last backslash to separate the filename and extension
-    char *lastBackslash = strrchr(translatedFilename, '\\');
-    if (lastBackslash) {
-        // Replace the backslash with a dot
-        *lastBackslash = '.';
+    // If there's no dot, assume it's just a filename (no subdir)
+    if (!lastDot) {
+        print("Invalid file format.\n");
+        return;
     }
 
-    HANDLE hFile = CreateFile(translatedFilename, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+    // Convert `.` to `\` EXCEPT for the last one
+    for (char *c = translatedPath; c < lastDot; c++) {
+        if (*c == '.') *c = '\\';
+    }
+
+    // Extract the directory path (everything before the last `\`)
+    char dirPath[256];
+    strncpy(dirPath, translatedPath, lastDot - translatedPath);
+    dirPath[lastDot - translatedPath] = '\0';
+
+    // Create the directory structure first
+    if (!CreateDirectory(dirPath, NULL) && GetLastError() != ERROR_ALREADY_EXISTS) {
+        print("Failed to create directories.\n");
+        return;
+    }
+
+    // Create the file inside the directory
+    HANDLE hFile = CreateFile(translatedPath, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
     
     if (hFile != INVALID_HANDLE_VALUE) {
         print("File created: ");
-        print(translatedFilename);
+        print(translatedPath);
         print("\n");
         CloseHandle(hFile);
     } else {
@@ -193,7 +259,7 @@ code following is the structure for opening files in Windows, and managing Windo
 */
 
 // Windows interaction WINUTILS.WINDOWSUTILS.sysapp
-int openFile(const char *filename) {
+int openDirective(const char *filename) {
     // Translate `\` to `.`
     char translatedFilename[256];
     snprintf(translatedFilename, sizeof(translatedFilename), "%s", filename);
@@ -205,7 +271,7 @@ int openFile(const char *filename) {
         *lastBackslash = '.';
     }
 
-    // Better implementation of openFile made by user "lenanya" / https://github.com/lenanya | over Discord Server: "Le Official WGE Discord Server"
+    // Better implementation of openDirective made by user "lenanya" / https://github.com/lenanya | over Discord Server: "Le Official WGE Discord Server"
     char *command = (char*)malloc(strlen(translatedFilename) + 6); // skip first `6` characters because of the "start " length
     sprintf(command, "start %s", translatedFilename); // call the command to open the file with variable filename provided by *command
     int result = system(command); // return the result of *command

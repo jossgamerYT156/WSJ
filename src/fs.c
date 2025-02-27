@@ -81,31 +81,41 @@ void changeDirectory(const char *path)
     // Handle `cd <<` to go back one directory level (like `cd ..` in UNIX)
     if (strcmp(path, "<<") == 0)
     {
-        // Check if we are at the root directory already
-        if (strcmp(currentDir, ROOT_DIR) == 0)
+        // Replace `<<` with `..`
+        strcpy(translatedDottedPath, "..");
+
+        // Use `SetCurrentDirectory` to change the directory
+        if (SetCurrentDirectory(translatedDottedPath))
         {
-            print("Already at root. Cannot go back any further.\n");
-            return;
+            GetCurrentDirectory(sizeof(currentDir), currentDir); // Get full path
+
+            // Find the start of the relevant path inside ROOT_DIR
+            char *relativePath = strstr(currentDir, ROOT_DIR);
+            if (relativePath)
+            {
+                relativePath += strlen(ROOT_DIR); // Move past "rootDir\J"
+                if (*relativePath == '\\')
+                    relativePath++; // Remove extra `\`
+            }
+            else
+            {
+                relativePath = currentDir; // If not inside ROOT_DIR, keep full path
+            }
+
+            // Update the currentDir to only hold the relative path
+            strcpy(currentDir, relativePath);
+
+            // Update formatted path (convert `\` to `.`)
+            formatPath(formattedPath, currentDir);
+
+            print("Changed directory to: ");
+            print(formattedPath);
+            print("\n");
         }
-
-        // Find the last backslash in the currentDir (representing a directory level)
-        char *lastBackslash = strrchr(currentDir, '\\');
-
-        // If there's a backslash, remove everything after it (go back one level)
-        if (lastBackslash)
+        else
         {
-            *lastBackslash = '\0'; // Remove the last directory segment
+            print("Failed to change directory. \nECOD: %d\n", GetLastError());
         }
-
-        // After modifying currentDir, we need to ensure it reflects the correct relative path:
-        char relativePath[256];
-        snprintf(relativePath, sizeof(relativePath), "[root]%s", currentDir);  // Ensure proper formatting
-
-        // Update the formattedPath after changing the directory
-        formatPath(formattedPath, relativePath);  // Reformat to match the relative path
-        print("Changed directory to: ");
-        print(formattedPath);
-        print("\n");
     }
     else if (strcmp(path, "/") == 0)
     {
@@ -155,9 +165,7 @@ void changeDirectory(const char *path)
                 // Update formatted path (convert `\` to `.`)
                 formatPath(formattedPath, currentDir);
 
-                print("Changed directory to: ");
-                print(formattedPath);
-                print("\n");
+                printf("Changed directory to: %s\n", formattedPath);
             }
         }
         else
@@ -166,4 +174,8 @@ void changeDirectory(const char *path)
             printf("%d\n", GetLastError());
         }
     }
+    /*
+    * Debug MSG, uncomment to see the current directory every timee you change directory.
+    */
+    // listFiles(currentDir);
 }

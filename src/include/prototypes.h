@@ -10,10 +10,12 @@
  */
 #define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
 
-// we define the root directory of the J subsystem here, change this to your own root directory.
-// @note this is the default root directory for the J subsystem, not the root of your actual C: drive..
+/** 
+* @brief we define the root directory of the J subsystem here, change this to your own root directory.
+* @category variables
+* @note this is the default root directory for the J subsystem, not the root of your actual C: drive..
+*/
 #define ROOT_DIR "C:\\Users\\Lilly_Aizawa\\WSJ\\rootDir\\J"
-
 
 // end of defines section
 
@@ -47,15 +49,30 @@ extern char commandList[];
  */
 extern char osimsg[];
 
-// Function prototypes
+/**
+ * @brief The `wait` directive, used to wait for a specified amount of time.
+ * @arg timeInSeconds `int` 1-9999
+ * @returns void
+ * @note This is a directive that is used to wait for a specified amount of time, it is used in the J subsystem's scripting language, J-LANG.
+ */
+extern void waitDirective(const char *args);
+
+/**
+ * @brief the `write` directive, used to write a string to console in UTF-8 format.
+ * @arg args `char*` the string to write to console.
+ * @returns void
+ * @note This is a directive that is used to write a string to the console in UTF-8 format, it is used in the J subsystem's scripting language, J-LANG.
+ */
+extern void writeDirective(char args[]);
 
 // moving through the FS
 /**
  * @brief Changes the current directory to the specified path.
  * 
  * @param path The path to change to.
+ * @returns void
  */
-void changeDirectory(const char *path);
+extern void changeDirectory(const char *path);
 
 // file management function prototypes
 /**
@@ -70,7 +87,7 @@ extern void makeDirectory(const char *dirname);
  * 
  * @param filename The name of the file to create.
  */
-extern void makeFile(const char *filename);
+extern void makeFile(const char *pathandname);
 
 /**
  * @brief Removes the specified file.
@@ -92,12 +109,12 @@ extern void removeDirectory(const char *dirname);
 * EG: open file.txt will open file.txt in the default text editor.(Windows' notepad.exe)
 * @param filename
 */
-extern int openFile(const char *filename);
+extern int openDirective(const char *filename);
 
 /**
  * @brief Lists the files in the current directory.
  */
-extern void listFiles();
+extern void listFiles(const char *dir);
 
 /**
  * @brief Prints the current directory.
@@ -147,7 +164,7 @@ extern void terminateAllProcesses();
  * 
  * @param args Arguments passed to the exit command.
  */
-extern void exitCommand(const char *args);
+extern void haltDirective(const char *args);
 
 /**
  * @brief Initializes the subsystem by setting the initial directory.
@@ -168,5 +185,7 @@ extern void OSInfo();
  * @brief Clears the terminal screen to avoid cluttering.
  */
 extern void clearScreen();
+
+extern void startShell();
 
 #endif

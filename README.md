@@ -61,29 +61,28 @@ These warns are "normal" and do not affect directly to the binary's operation, t
 # Features:
 
 ## Multipurpose commands:
-
-- *`hlt`*      : HALTS the program (CORE)
-- *`cd`*       : change directories to the specified path (CORE)
-- *`osi`*      : shows MISC OS info and target info (CORE)
-- *`pcd`*      : prints the current directory (CORE)
-- *`pwd`*      : Same as `pcd`, added just for compatibility (CORE.*INUXCOMPAT)
+- `hlt`    : exits the command JSH(CORE)
+- `cd`     : change directories to the specified path(CORE)
 ## File Management:
-- *`mkd`*    : removes a directory of the specified path (CORE)
-- *`rmd`*    : remove directories from the specified path (CORE)
-- *`mkf`*    : make a file with the specified name and path (CORE)
-- *`rmf`*    : removes the specified file (CORE)
-- *`ls`*     : Lists the contents of currentDir[256] (CORE)
-
+- `mkd`    : removes a directory of the specified path (core)
+- `rmd`    : remove directories from the specified path (CORE)
+- `mkf`    : make a file with the specified name and path (CORE)
+- `rmf`    : removes the specified file (CORE)
+- `ls`     : Lists the contents of currentDir[256] (core)
+- `pwd`    : (still on development) gets the current working directory(CORE)
 ## Windows Interaction
-- *`dir`*    : same as `ls` (WINCOMPAT.WINDOWSUTILS.sysapp)
-- *`open`*   : Open a file specified by the user using Windows' START directive (WINCOMPAT.WINDOWSUTILS.sysapp)
-- *`clt`*    : clears the terminal(WINDOWS.WINDOWSUTILS.sysapp)
-
+- `dir`    : same as `ls` (WINCOMPAT.WINDOWSUTILS.sysapp)
+- `open`   : Open a file specified by the user (WINCOMPAT.WINDOWSUTILS.sysapp)
+- `clt`    : clears the terminal(WINDOWS.WINDOWSUTILS.sysapp)
 ## Process Logic
-- *`cproc`*  : create process (CORE)
-- *`killall`* : kills all processes (CORE)
-- *`addproc`* : adds a process to the processlist(CORE)
-
+- `cproc`  : create process (CORE)
+- `killall : kills all processes (CORE)
+- `addproc : adds a process to the processlist(CORE)
+## Fun Commands
+- `write`  : Writes characters to screen using `write "sometext!"
+ (CORE)- `wait`   : waits for a specified amount of time (CORE.JLANG)
+- `**`     : comment string (CORE.JLANG)
+- `jrun`   : runs a jlang-formatted script file (CORE.JLANG)
 
 # Project structure:
 ---

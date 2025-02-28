@@ -10,6 +10,9 @@ User modules is just a directory to put YOUR additions, stuff like features you 
 
 User Modules are DIY, so, good luck finding out how to implement them!
 
+User Modules are DIY, so, good luck finding out how to implement them!
+
 Have fun!
+
 
 DON'T ask for DLL support, we won't do that.

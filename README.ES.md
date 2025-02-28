@@ -81,6 +81,12 @@ __
 - *`open`*      : Abre un archivo en la aplicacion por defecto utilizando la directiva `START` de Windows (WINCOMPAT.WINDOWSUTILS.sysapp)
 - *`clt`*       : Limpia la terminal (WINCOMPAT.WINDOWSUTILS.sysapp)
 
+## J-Lang Scripting
+- *`**`*        : Notacion`:`Comentarios IN-CODE (CORE.JLANG)
+- *`jrun`*      : El RUNTIME de Ejecucion de scripts de JLANG (CORE.JLANG)
+- *`write`*     : Escribe caracteres a la terminal (CORE.JLANG)
+- *`wait`*      : Directiva de espera [Espera por un tiempo determinado/s] (CORE.JLANG)
+
 ## Logica de ProgMan
 
 > Caracteristicas En Desarrollo
@@ -150,3 +156,7 @@ ___
 [J-OS: Una Explicacion Rapida por Lilly Aizawa| Pagina En Ingles](https://lillydevstudios.neocities.org/home/about/J-OS/)
 
 [J Basado En Linux| Pagina En Espanol](https://techlm77.co.uk/J-OS/index-spanish.html) por [Techlm77| Perfil En Ingles](https://www.github.com/Techlm77/)
+
+> Quieres Ayudar a mejorar la traduccion? crea un [asunto](https://github.com/jossgamerYT156/WSJ/issues) con tus anotaciones y Lilly le dara un vistazo!
+
+- LillyAizawa ❤️

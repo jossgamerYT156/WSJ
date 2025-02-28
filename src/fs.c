@@ -58,7 +58,7 @@ void updateFormattedPath(char *formattedPath)
     // Check if formatting was successful (no errors)
     if (formattedPath[0] == '\0')
     {
-        printf("Failed to update path format\n");
+        printf("Failed to update path format\n ECOD: %d\n", GetLastError());
     }
 }
 
@@ -108,9 +108,7 @@ void changeDirectory(const char *path)
             // Update formatted path (convert `\` to `.`)
             formatPath(formattedPath, currentDir);
 
-            print("Changed directory to: ");
-            print(formattedPath);
-            print("\n");
+            print("Changed directory to: %s\n", formattedPath);
         }
         else
         {
@@ -123,9 +121,7 @@ void changeDirectory(const char *path)
         strcpy(currentDir, ROOT_DIR);
         SetCurrentDirectory(ROOT_DIR);
         formatPath(formattedPath, currentDir);
-        print("Changed directory to: ");
-        print(formattedPath);
-        print("\n");
+        printf("Changed directory to: ", formattedPath);
     }
     else
     {
@@ -134,8 +130,7 @@ void changeDirectory(const char *path)
 
         if (attributes == INVALID_FILE_ATTRIBUTES)
         {
-            print("Failed to change directory. \nECOD: \n");
-            printf("%d\n", GetLastError());
+            printf("Failed to change directory. \nECOD: %d\n", GetLastError());
             return;
         }
 
@@ -170,8 +165,7 @@ void changeDirectory(const char *path)
         }
         else
         {
-            print("Failed to change directory. \nECOD: \n");
-            printf("%d\n", GetLastError());
+            printf("Failed to change directory. \nECOD: %s\n", GetLastError());
         }
     }
     /*

@@ -55,6 +55,9 @@ run.bat
 # stuff from tests
 rootDir/*
 .vscode/*
-.\*.zip
-.\*.lnk
-.\bin\*.*
+*.zip
+*.lnk
+bin\*.*
+
+# Ignore all object files compiled by .\make.bat script
+*.obj

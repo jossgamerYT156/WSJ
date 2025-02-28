@@ -71,6 +71,7 @@ src\sys.c(46): warning C4113: 'void (__cdecl *)()' differs in parameter lists fr
 - *`pwd`*      : `pcd`と同じ、互換性のために追加（CORE.*INUXCOMPAT）
 
 ## ファイル管理：
+
 - *`mkd`*    : 指定されたパスのディレクトリを削除する（CORE）
 - *`rmd`*    : 指定されたパスのディレクトリを削除する（CORE）
 - *`mkf`*    : 指定された名前とパスでファイルを作成する（CORE）
@@ -78,11 +79,20 @@ src\sys.c(46): warning C4113: 'void (__cdecl *)()' differs in parameter lists fr
 - *`ls`*     : 現在のディレクトリの内容をリスト表示（CORE）
 
 ## Windowsとのやり取り
+
 - *`dir`*    : `ls`と同じ（WINCOMPAT.WINDOWSUTILS.sysapp）
 - *`open`*   : WindowsのSTARTディレクティブを使用して、指定されたファイルを開く（WINCOMPAT.WINDOWSUTILS.sysapp）
 - *`clt`*    : ターミナルをクリアする（WINDOWS.WINDOWSUTILS.sysapp）
 
+## J-Lang スクリプト
+
+- `write` : `write "sometext!" を使用して画面に文字を書き込みます (CORE)
+- `wait` : 指定された時間待機します (CORE.JLANG)
+- `**` : コメント文字列 (CORE.JLANG)
+- `jrun` : jlang 形式のスクリプト ファイルを実行します (CORE.JLANG)
+
 ## プロセスロジック
+
 - *`cproc`*  : プロセスを作成する（CORE）
 - *`killall`* : すべてのプロセスを終了する（CORE）
 - *`addproc`* : プロセスリストにプロセスを追加する（CORE）

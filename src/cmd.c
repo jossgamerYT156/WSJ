@@ -55,7 +55,7 @@ char osimsg[] =
     "Version Channel: NULL\n";
 
 void haltDirective(const char *args) {
-    print("HLT\0\n");
+    print("J_HLT_OPC:0xF4\0\n");
     exit(0);
 }
 

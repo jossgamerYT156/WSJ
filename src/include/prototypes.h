@@ -10,11 +10,11 @@
  */
 #define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
 
-/** 
-* @brief we define the root directory of the J subsystem here, change this to your own root directory.
-* @category variables
-* @note this is the default root directory for the J subsystem, not the root of your actual C: drive..
-*/
+/**
+ * @brief we define the root directory of the J subsystem here, change this to your own root directory.
+ * @category variables
+ * @note this is the default root directory for the J subsystem, not the root of your actual C: drive..
+ */
 #define ROOT_DIR "C:\\Users\\Lilly_Aizawa\\WSJ\\rootDir\\J"
 
 // end of defines section
@@ -68,7 +68,7 @@ extern void writeDirective(char args[]);
 // moving through the FS
 /**
  * @brief Changes the current directory to the specified path.
- * 
+ *
  * @param path The path to change to.
  * @returns void
  */
@@ -77,38 +77,38 @@ extern void changeDirectory(const char *path);
 // file management function prototypes
 /**
  * @brief Creates a directory with the specified name.
- * 
+ *
  * @param dirname The name of the directory to create.
  */
 extern void makeDirectory(const char *dirname);
 
 /**
  * @brief Creates a file with the specified name.
- * 
+ *
  * @param filename The name of the file to create.
  */
 extern void makeFile(const char *pathandname);
 
 /**
  * @brief Removes the specified file.
- * 
+ *
  * @param filename The name of the file to remove.
  */
 extern void removeFile(const char *filename);
 
 /**
  * @brief Removes a directory with the specified name.
- * 
+ *
  * @param dirname The name of the directory to remove.
  */
 extern void removeDirectory(const char *dirname);
 
 // path stuff
 /*
-* @brief directive to open a file in the default application associated.
-* EG: open file.txt will open file.txt in the default text editor.(Windows' notepad.exe)
-* @param filename
-*/
+ * @brief directive to open a file in the default application associated.
+ * EG: open file.txt will open file.txt in the default text editor.(Windows' notepad.exe)
+ * @param filename
+ */
 extern int openDirective(const char *filename);
 
 /**
@@ -123,14 +123,14 @@ extern void printCurrentDirectory();
 
 /**
  * @brief Updates the formatted path.
- * 
+ *
  * @param formattedPath The formatted path to update.
  */
 extern void updateFormattedPath(char *formattedPath);
 
 /** @brief Helper function to convert dot-separated paths back to backslash-separated paths.
  *  @param formattedPath: The path to remove `.` from and replace with `\`
- * 
+ *
  *  @returns void
  */
 extern void convertDotToBackslash(char *formattedPath);
@@ -138,14 +138,14 @@ extern void convertDotToBackslash(char *formattedPath);
 // process based logic
 /**
  * @brief Creates a new process and tracks it.
- * 
+ *
  * @param exePath The path to the executable.
  */
 extern void createProcessAndTrack(const char *exePath);
 
 /**
  * @brief Adds a process to the process list.
- * 
+ *
  * @param hProcess The process handle.
  * @param hThread The thread handle.
  * @param processID The process ID.
@@ -161,7 +161,7 @@ extern void terminateAllProcesses();
 
 /**
  * @brief Exits the command shell.
- * 
+ *
  * @param args Arguments passed to the exit command.
  */
 extern void haltDirective(const char *args);

@@ -3,6 +3,14 @@
 #include <windows.h>
 #include <stdio.h>
 #include "prototypes.h"
+#include "errHandle.h" // Include errHandle.h for error constants
+ 
+
+
+const int _fsErrorCChD = 8;
+const int _fsErrorCCD = 406;
+const int _fsUnErr = 50;
+const int _fsDirExc = 3; // Add this definition
 
 /**
  * @brief Formatting function for JPATH, it formats the Windows' default path \dir\subdir\subdir\file.something to [root].dir.subdir.subdir.file\something
@@ -42,7 +50,12 @@ void printCurrentDirectory()
     formatPath(formattedPath, currentDir);
     print(formattedPath);
     print("\n");
-    return formattedPath;
+    // Removed invalid return statement
+    if (formattedPath == 0)
+    {
+        printf("Cannot Update Path: ECOD: %d:%d\n", _fsUnErr, GetLastError());
+        return; // Fixed warning by removing invalid return value
+    }
 }
 
 void updateFormattedPath(char *formattedPath)
@@ -58,7 +71,7 @@ void updateFormattedPath(char *formattedPath)
     // Check if formatting was successful (no errors)
     if (formattedPath[0] == '\0')
     {
-        printf("Failed to update path format\n ECOD: %d\n", GetLastError());
+        printf("Failed to update path format\n ECOD: %d:%d\n", _fsUnErr, GetLastError());
     }
 }
 
@@ -112,7 +125,7 @@ void changeDirectory(const char *path)
         }
         else
         {
-            print("Failed to change directory. \nECOD: %d\n", GetLastError());
+            printf("Cannot Change Directory To: %s\nECOD: %d:%d\n", path, _fsErrorCChD, GetLastError());
         }
     }
     else if (strcmp(path, "/") == 0)
@@ -130,7 +143,7 @@ void changeDirectory(const char *path)
 
         if (attributes == INVALID_FILE_ATTRIBUTES)
         {
-            printf("Failed to change directory. \nECOD: %d\n", GetLastError());
+            printf("Cannot Change Directory To: %s\nECOD: %d:%d\n", path, _fsErrorCChD, GetLastError());
             return;
         }
 
@@ -165,11 +178,11 @@ void changeDirectory(const char *path)
         }
         else
         {
-            printf("Failed to change directory. \nECOD: %s\n", GetLastError());
+            printf("Cannot Change Directory To: %s\nECOD: %d%d%d\n", path, _fsErrorCChD, _fsUnErr, GetLastError());
         }
     }
     /*
-    * Debug MSG, uncomment to see the current directory every timee you change directory.
+    * Debug MSG, uncomment to see the current directory every time you change directory.
     */
     // listFiles(currentDir);
 }

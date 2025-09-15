@@ -6,7 +6,7 @@
 #include "errHandle.h" // Include errHandle.h for error constants
  
 
-
+// yes, i just changed the names to avoid redefinition errors, sue me.
 const int _fsErrorCChD = 8;
 const int _fsErrorCCD = 406;
 const int _fsUnErr = 50;
